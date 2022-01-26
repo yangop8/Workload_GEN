@@ -35,7 +35,7 @@ def read_raw_data():
             data = fin.read(8)
             num1 = struct.unpack('Q',data)
             result.append(num1[0])
-        
+
         raw_data[file] = result
 
         fin.close()
@@ -99,7 +99,7 @@ def workload_gen(type:str, raw_data:list, total:int=2000):
     for i in tqdm(range(total)):
         select = random.choice(y)
         ss = interval * select
-        ee = max(sum, interval * (select + 1) -1)
+        ee = min(sum, interval * (select + 1) -1)
         pos = random.randint(ss,ee)
         result.append((raw_data[pos],pos))
     return result
@@ -122,7 +122,7 @@ def pack_result(result:list, file:str):
         fout.write(struct.pack('2Q',result[i][0],result[i][1]))
 
     fout.close()
-    
+
 
 def main():
     print ('--------LOADING---------')
